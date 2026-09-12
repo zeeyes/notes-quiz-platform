@@ -1,25 +1,223 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Notes & Quiz Platform</title>
+  <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="StudyGaurav — modern notes, quizzes and learning platform.">
+  <title>StudyGaurav — Learn Smarter</title>
+  <style>
+    :root{
+      --bg:#f6f8fc;--surface:#fff;--text:#111827;--muted:#667085;--line:#e6eaf0;
+      --primary:#2563eb;--primary-dark:#1d4ed8;--soft:#eff6ff;--success:#16a34a;
+      --shadow:0 10px 30px rgba(15,23,42,.07);--radius:18px;--max:1180px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}button,input{font:inherit}
+    .container{width:min(var(--max),calc(100% - 32px));margin:auto}
+    .topbar{background:#0f172a;color:#dbeafe;font-size:13px;text-align:center;padding:8px 16px}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line)}
+    .nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;letter-spacing:-.5px}
+    .logo{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:white;
+      background:linear-gradient(135deg,#2563eb,#7c3aed);box-shadow:0 8px 18px rgba(37,99,235,.25)}
+    .navlinks{display:flex;align-items:center;gap:26px;color:#475467;font-size:14px;font-weight:600}
+    .navlinks a:hover{color:var(--primary)}
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{border:0;border-radius:11px;padding:11px 16px;cursor:pointer;font-weight:700;transition:.2s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--primary);color:white;box-shadow:0 7px 18px rgba(37,99,235,.2)}
+    .btn-primary:hover{background:var(--primary-dark)}
+    .btn-light{background:#fff;border:1px solid var(--line);color:#344054}
+    .menu{display:none;background:#fff;border:1px solid var(--line);width:42px;height:42px;border-radius:11px;cursor:pointer}
+    .hero{padding:70px 0 50px}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:center}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--soft);color:var(--primary);
+      border:1px solid #dbeafe;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800;margin-bottom:18px}
+    h1{font-size:clamp(38px,5vw,64px);line-height:1.03;letter-spacing:-2.5px;max-width:700px}
+    .hero p{font-size:18px;color:var(--muted);max-width:620px;margin:20px 0 28px}
+    .hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+    .stats{display:flex;gap:28px;margin-top:30px;flex-wrap:wrap}
+    .stat strong{display:block;font-size:20px}.stat span{font-size:13px;color:var(--muted)}
+    .hero-card{background:linear-gradient(145deg,#111827,#1e3a8a);border-radius:28px;padding:22px;color:white;
+      box-shadow:0 25px 60px rgba(15,23,42,.18);position:relative;overflow:hidden}
+    .hero-card:before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:#60a5fa;
+      opacity:.12;right:-70px;top:-80px}
+    .dash-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .dash-title{font-weight:800}.pill{font-size:11px;background:rgba(255,255,255,.12);padding:6px 9px;border-radius:99px}
+    .progress-box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:16px}
+    .progress-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:9px;color:#dbeafe}
+    .bar{height:9px;background:rgba(255,255,255,.12);border-radius:99px;overflow:hidden}.bar i{display:block;width:72%;height:100%;background:#60a5fa;border-radius:99px}
+    .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .mini{padding:14px;background:rgba(255,255,255,.08);border-radius:14px;font-size:13px}.mini b{display:block;font-size:20px}
+    section{padding:62px 0}
+    .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:24px}
+    .section-head h2{font-size:30px;letter-spacing:-1px}.section-head p{color:var(--muted);max-width:560px}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:0 5px 20px rgba(15,23,42,.035)}
+    .card:hover{box-shadow:var(--shadow);transform:translateY(-2px);transition:.2s}
+    .subject-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:var(--soft);font-size:23px;margin-bottom:16px}
+    .card h3{font-size:17px;margin-bottom:6px}.card p{font-size:13px;color:var(--muted);margin-bottom:15px}
+    .card-link{color:var(--primary);font-size:13px;font-weight:800}
+    .quiz-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .quiz-card{padding:22px}.quiz-meta{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tag{font-size:11px;padding:5px 8px;border-radius:99px;background:#f2f4f7;color:#475467}
+    .feature{background:#fff;border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;gap:15px;align-items:flex-start}
+    .feature-icon{width:42px;height:42px;border-radius:12px;background:#f3e8ff;display:grid;place-items:center;flex:none}
+    .feature h3{font-size:16px;margin-bottom:4px}.feature p{font-size:13px;color:var(--muted)}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .cta{background:linear-gradient(135deg,#1d4ed8,#4f46e5);color:#fff;border-radius:26px;padding:42px;display:flex;justify-content:space-between;gap:30px;align-items:center}
+    .cta h2{font-size:32px;letter-spacing:-1px}.cta p{color:#dbeafe;margin-top:8px;max-width:600px}
+    footer{border-top:1px solid var(--line);background:#fff;padding:30px 0;color:var(--muted);font-size:13px}
+    .footer-row{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;place-items:center;padding:16px;z-index:100}
+    .modal.open{display:grid}.modal-box{background:#fff;width:min(430px,100%);border-radius:22px;padding:26px;box-shadow:0 30px 80px rgba(0,0,0,.2)}
+    .modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.close{border:0;background:#f2f4f7;width:34px;height:34px;border-radius:9px;cursor:pointer}
+    label{display:block;font-size:13px;font-weight:700;margin:13px 0 6px}.input{width:100%;border:1px solid #d0d5dd;border-radius:10px;padding:12px;outline:none}.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px #dbeafe}
+    .full{width:100%;margin-top:16px}.notice{font-size:12px;color:var(--muted);margin-top:12px}
+    .mobile-nav{display:none;padding:0 0 16px}.mobile-nav a{display:block;padding:11px 0;border-top:1px solid var(--line);font-weight:700;color:#475467}
+    @media(max-width:980px){.hero-grid{grid-template-columns:1fr}.hero-card{max-width:650px}.cards{grid-template-columns:repeat(2,1fr)}.features{grid-template-columns:1fr 1fr}.navlinks{display:none}.menu{display:block}}
+    @media(max-width:700px){.container{width:min(var(--max),calc(100% - 22px))}.topbar{font-size:12px}.nav{height:62px}.actions .btn-light{display:none}.hero{padding:46px 0 30px}h1{letter-spacing:-1.7px}.hero p{font-size:16px}.stats{gap:18px}.cards,.quiz-grid,.features{grid-template-columns:1fr}.section-head{display:block}.section-head p{margin-top:7px}.cta{padding:28px;display:block}.cta h2{font-size:26px}.cta .btn{margin-top:20px}.mobile-nav.open{display:block}}
+  </style>
 </head>
-
 <body>
-  <h1>📚 Notes & Quiz Platform</h1>
+  <div class="topbar">🚀 Study smarter • Notes + Quizzes + Progress, all in one place</div>
 
-  <p>Welcome! यहाँ notes पढ़ें और quizzes दें।</p>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#"><span class="logo">S</span> StudyGaurav</a>
+      <nav class="navlinks">
+        <a href="#subjects">Subjects</a><a href="#quizzes">Quizzes</a><a href="#features">Features</a><a href="#about">About</a>
+      </nav>
+      <div class="actions">
+        <button class="btn btn-light" onclick="openLogin()">Login</button>
+        <button class="btn btn-primary" onclick="openLogin()">Get Started</button>
+        <button class="menu" onclick="toggleMenu()" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+    <div class="container mobile-nav" id="mobileNav">
+      <a href="#subjects" onclick="toggleMenu()">Subjects</a>
+      <a href="#quizzes" onclick="toggleMenu()">Quizzes</a>
+      <a href="#features" onclick="toggleMenu()">Features</a>
+      <a href="#about" onclick="toggleMenu()">About</a>
+    </div>
+  </header>
 
-  <hr>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">✨ Your smarter study space</div>
+          <h1>Learn faster. Practice better. <span style="color:#2563eb">Score higher.</span></h1>
+          <p>Clean notes, chapter-wise quizzes and progress tracking — designed to work beautifully on mobile, tablet and laptop.</p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#subjects">Explore Subjects →</a>
+            <a class="btn btn-light" href="#quizzes">Try a Quiz</a>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>10+</strong><span>Subjects planned</span></div>
+            <div class="stat"><strong>500+</strong><span>MCQs planned</span></div>
+            <div class="stat"><strong>100%</strong><span>Responsive design</span></div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="dash-top"><div class="dash-title">📊 Your Study Dashboard</div><div class="pill">Preview</div></div>
+          <div class="progress-box">
+            <div class="progress-row"><span>Overall progress</span><b>72%</b></div>
+            <div class="bar"><i></i></div>
+          </div>
+          <div class="mini-grid">
+            <div class="mini"><span>📝 Quizzes</span><b>18</b></div>
+            <div class="mini"><span>🎯 Avg. score</span><b>84%</b></div>
+            <div class="mini"><span>📚 Notes read</span><b>32</b></div>
+            <div class="mini"><span>🔥 Study streak</span><b>7 days</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <h2>📖 Notes</h2>
-  <p>जल्द ही यहाँ subjects और chapters के notes होंगे।</p>
+    <section id="subjects">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Explore Subjects</h2><p>Start with a subject and open chapter-wise notes. More subjects can be added without changing the design.</p></div>
+          <a class="card-link" href="#">View all →</a>
+        </div>
+        <div class="cards">
+          <article class="card"><div class="subject-icon">📐</div><h3>Mathematics</h3><p>Formulas, concepts and practice questions.</p><a class="card-link" href="#quizzes">Explore →</a></article>
+          <article class="card"><div class="subject-icon">⚛️</div><h3>Physics</h3><p>Concept notes, numericals and MCQ practice.</p><a class="card-link" href="#quizzes">Explore →</a></article>
+          <article class="card"><div class="subject-icon">🧪</div><h3>Chemistry</h3><p>Reactions, concepts and quick revision notes.</p><a class="card-link" href="#quizzes">Explore →</a></article>
+          <article class="card"><div class="subject-icon">🧬</div><h3>Biology</h3><p>Diagrams, definitions and chapter revision.</p><a class="card-link" href="#quizzes">Explore →</a></article>
+        </div>
+      </div>
+    </section>
 
-  <h2>📝 Quizzes</h2>
-  <p>जल्द ही यहाँ MCQ quizzes होंगे।</p>
+    <section id="quizzes">
+      <div class="container">
+        <div class="section-head">
+          <div><h2>Practice with Quizzes</h2><p>Short, focused MCQs help you test your understanding and identify weak chapters.</p></div>
+        </div>
+        <div class="quiz-grid">
+          <article class="card quiz-card">
+            <h3>Mathematics • Algebra</h3>
+            <div class="quiz-meta"><span class="tag">10 Questions</span><span class="tag">Easy</span><span class="tag">~5 min</span></div>
+            <p>Test your basics of equations and algebraic expressions.</p>
+            <button class="btn btn-primary" onclick="startQuiz('Mathematics • Algebra')">Start Quiz</button>
+          </article>
+          <article class="card quiz-card">
+            <h3>Physics • Motion</h3>
+            <div class="quiz-meta"><span class="tag">10 Questions</span><span class="tag">Medium</span><span class="tag">~7 min</span></div>
+            <p>Check your understanding of speed, velocity and motion.</p>
+            <button class="btn btn-primary" onclick="startQuiz('Physics • Motion')">Start Quiz</button>
+          </article>
+        </div>
+      </div>
+    </section>
 
-  <h2>👤 Login</h2>
-  <p>जल्द ही यहाँ user login और signup होगा।</p>
+    <section id="features">
+      <div class="container">
+        <div class="section-head"><div><h2>Built for modern learning</h2><p>The frontend is intentionally lightweight now, so we can add real backend features later without rebuilding the UI.</p></div></div>
+        <div class="features">
+          <div class="feature"><div class="feature-icon">📚</div><div><h3>Chapter-wise Notes</h3><p>Organized notes that are easy to scan on small screens.</p></div></div>
+          <div class="feature"><div class="feature-icon">🎯</div><div><h3>Quiz & Scores</h3><p>MCQs, results and eventually complete quiz history.</p></div></div>
+          <div class="feature"><div class="feature-icon">👤</div><div><h3>Personal Dashboard</h3><p>Login, progress, streaks and saved learning activity.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container">
+        <div class="cta">
+          <div><h2>Ready to build your study platform?</h2><p>Next we can connect real authentication, database-backed notes and quizzes, then add AI features carefully.</p></div>
+          <button class="btn" style="background:#fff;color:#1d4ed8" onclick="openLogin()">Create Account</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row"><span>© 2026 StudyGaurav</span><span>Fast • Responsive • Student-first</span></div>
+  </footer>
+
+  <div class="modal" id="loginModal" onclick="if(event.target===this)closeLogin()">
+    <div class="modal-box">
+      <div class="modal-head"><div><h2>Welcome back 👋</h2><p style="font-size:13px;color:#667085">Login UI preview</p></div><button class="close" onclick="closeLogin()">✕</button></div>
+      <label>Email</label><input class="input" type="email" placeholder="you@example.com">
+      <label>Password</label><input class="input" type="password" placeholder="••••••••">
+      <button class="btn btn-primary full" onclick="demoLogin()">Login</button>
+      <p class="notice">This is the frontend demo. Real login will be connected with Supabase in the next phase.</p>
+    </div>
+  </div>
+
+  <script>
+    function openLogin(){document.getElementById('loginModal').classList.add('open')}
+    function closeLogin(){document.getElementById('loginModal').classList.remove('open')}
+    function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open')}
+    function demoLogin(){alert('Login UI is working. Real authentication will be connected in the next phase.');closeLogin()}
+    function startQuiz(name){alert(name + '\\n\\nQuiz UI is ready for the next phase. We will add real MCQs, timer, score and quiz history.')}
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLogin()})
+  </script>
 </body>
 </html>
