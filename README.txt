@@ -1,9 +1,6 @@
-StudyGaurav History package
-Upload/replace in GitHub:
-index.html
-history.html
-notes/gupt-history.md
-notes/later-medieval-history.md
+StudyGaurav V2 frontend
+Direct flow:
+Home -> History/Polity/Quiz -> Chapter -> Notes/Quiz.
 
-The Markdown source files are preserved. history.html is a responsive rendered reader with topic navigation and search.
-Polity is not added yet because the supplied files contain History topics.
+Original Markdown files are preserved in notes/.
+Real admin login + Markdown upload + quiz publishing is NOT faked here. It needs Supabase Auth/Database/Storage and will be connected in the next phase.
